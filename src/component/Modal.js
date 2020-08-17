@@ -20,16 +20,17 @@ export const FormModal = (props) => {
     const saveHandler = (todo) => {
         if(props.modId) {
             dispatch(modifyTodo(props.modId, {...todo}))
+            props.setModId(null)
         } else {
             dispatch(addTodo({...todo}))
         }
-        props.handleClose();
         keyStroke({title:'', body:''})
+        props.handleClose();
     }
 
     const closeHandler = () => {
-        props.handleClose();
         keyStroke({title:'', body:''})
+        props.handleClose();
     }
 
     return (

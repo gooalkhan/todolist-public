@@ -1,4 +1,4 @@
-import { maxBy } from 'lodash';
+import { maxBy, sortBy } from 'lodash';
 
 const initTodo = {
     todos: [
@@ -30,6 +30,7 @@ export const appReducer = (state = initTodo, action) => {
         case "MODIFY_TODO":
             todos = state.todos.filter((item) => (item.id !== action.id))
             todos.push({ ...action.todo, id: action.id})
+            todos = sortBy(todos, 'id')
             console.log("modify", todos)
             return ({
                 ...state,
