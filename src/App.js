@@ -3,6 +3,8 @@ import { Container, Row, Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { FormModal } from './component/Modal'
 import { Todo } from './component/Todo.js';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const App = (props) => {
     const [show, setShow] = useState(false);
@@ -43,4 +45,11 @@ const App = (props) => {
     )
 }
 
-export default App;
+const dndApp = (props) => {
+    return(
+    <DndProvider backend={HTML5Backend}>
+        <App/>
+    </DndProvider>
+    )}
+
+export default dndApp;

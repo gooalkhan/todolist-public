@@ -19,3 +19,11 @@ export const deleteTodo = (id) => {
         id
     }
 }
+
+export const dndTodo = (dragId, dropId) => {
+    return {
+        type: "DND_TODO", 
+        dragId,
+        dropId
+    }
+}
