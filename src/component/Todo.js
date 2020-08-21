@@ -33,7 +33,6 @@ export const Todo = (props) => {
             }
 
             const hoverBoundingRect = ref.current?.getBoundingClientRect()
-            console.log(hoverBoundingRect.top)
             // Get vertical middle
             const hoverMiddleY =
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
