@@ -33,35 +33,51 @@ export const Todo = (props) => {
             }
 
             const hoverBoundingRect = ref.current?.getBoundingClientRect()
+            const dragBoundingCoord = monitor.getInitialSourceClientOffset()
             // Get vertical middle
             const hoverMiddleY =
                 (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+            const hoverMiddleX =
+                (hoverBoundingRect.right - hoverBoundingRect.left) / 2
             // Determine mouse position
             const clientOffset = monitor.getClientOffset()
             // Get pixels to the top
             const hoverClientY = clientOffset.y - hoverBoundingRect.top
+            const hoverClientX = clientOffset.x - hoverBoundingRect.left
             // Only perform the move when the mouse has crossed half of the items height
             // When dragging downwards, only move when the cursor is below 50%
             // When dragging upwards, only move when the cursor is above 50%
-            // Dragging downwards
-            if (dragId < hoverId && hoverClientY < hoverMiddleY) {
-                return
-            }
-            // Dragging upwards
-            if (dragId > hoverId && hoverClientY > hoverMiddleY) {
-                return
-            }
 
-            dispatch(dndTodo(dragId, hoverId))
+            if (dragBoundingCoord.x === hoverBoundingRect.left) {
+                // Dragging downwards
+                if (dragId < hoverId && hoverClientY < hoverMiddleY) {
+                    return
+                }
+                // Dragging upwards
+                if (dragId > hoverId && hoverClientY > hoverMiddleY) {
+                    return
+                }
 
+                dispatch(dndTodo(dragId, hoverId))
+            } else if (dragBoundingCoord.x !== hoverBoundingRect.left) {
+                //left item, dragg right not fully 
+                if (dragId < hoverId && hoverClientX < hoverMiddleX) {
+                    return
+                }
+                //right item, dragg left not fully
+                if (dragId > hoverId && hoverClientX > hoverMiddleX) {
+                    return
+                }
+                dispatch(dndTodo(dragId, hoverId))
+            }
             //item.id = hoverId
-        },
+        }
     })
     drag(drop(ref))
 
     return (
         <Col xl={4} lg={6} md={6} sm={12} xs={12} className="p-1" ref={ref}>
-            <Card className={!isDragging ? "visible":"invisible"}>
+            <Card className={!isDragging ? "visible" : "invisible"}>
                 <Card.Header className="container-fluid font-weight-bold">
                     <Row>
                         <Col xs={9} className="pt-1">
